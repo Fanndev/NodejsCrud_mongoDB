@@ -43,9 +43,23 @@ exports.editMahasiswa = async (req, res) => {
     return res.status(404).json({message: `Cannot find data mahasiswa ID ${id}`})
   }
   const updateMahasiswa = await modelMahasiswa.findById(id);
-  res.status(200).json({message: 'Success Update Data'})
+  res.status(200).json(updateMahasiswa,{message: 'Success Update Data'})
   } catch (error) {
     res.status(500).json({message: error.message})
   }
 }
 
+// Delete Data Mahasiswa
+exports.deleteMahasiswa = async(req, res) => {
+  try {
+    const {id} = req.params;
+    const mahasiswa = await modelMahasiswa.findByIdAndDelete(id);
+    if(!mahasiswa){
+        return res.status(404).json({message: `cannot find any Mahasiswa with ID ${id}`})
+    }
+    res.status(200).json(mahasiswa);
+    
+} catch (error) {
+    res.status(500).json({message: error.message})
+}
+}
